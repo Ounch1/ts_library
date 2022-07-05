@@ -7,8 +7,8 @@ import io.jooby.annotations.Path;
 import io.jooby.annotations.QueryParam;
 import se.yrgo.libraryapp.dao.UserDao;
 import se.yrgo.libraryapp.entities.forms.RegisterUserData;
-import se.yrgo.libraryapp.validator.RealName;
-import se.yrgo.libraryapp.validator.Username;
+import se.yrgo.libraryapp.validators.RealName;
+import se.yrgo.libraryapp.validators.Username;
 
 @Path("/register")
 public class RegisterUserController {

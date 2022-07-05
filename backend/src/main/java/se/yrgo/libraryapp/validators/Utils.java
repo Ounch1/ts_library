@@ -1,4 +1,4 @@
-package se.yrgo.libraryapp.validator;
+package se.yrgo.libraryapp.validators;
 
 import java.util.Map;
 
