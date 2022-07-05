@@ -12,6 +12,17 @@ public final class Username {
 
     private Username() {}
 
+    /**
+     * Validates if the given name is a valid username.
+     * 
+     * A username should be at least four characters long and only
+     * contain ASCII letters, numbers and the characters @, ., _ and -.
+     * It should not contain any other letters, not even whitespace.
+     * 
+     * @param name the name to check
+     * @return true if valid, false if not
+     * 
+     */
     public static boolean validate(String name) {
         return regex.matcher(name).matches();
     }
