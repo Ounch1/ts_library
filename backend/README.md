@@ -12,6 +12,16 @@ The application assumes that there is a MySQL database up and running with the
 URL and credentials configured in `resources/application.conf``. It will use
 Flyway to create the proper schema before starting the service.
 
+You can create such a database and user (for dev) with the following SQL:
+
+```SQL
+CREATE DATABASE joobyTest;
+CREATE USER 'jooby' IDENTIFIED BY 'somepasswordyouwant';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES ON joobyTest.* TO 'jooby';
+```
+
+Don't forget to update the application configuration to match your choice. You can then run the application using Maven:
+
 ```
 mvn clean jooby:run
 ```
