@@ -16,7 +16,13 @@
         </form>
     </section>
 
-    <section class="overflow-x-auto my-4" v-if="books.length > 0">
+    <section class="errors overflow-x-auto my-4 flex flex-col items-center" v-if="errors.length > 0">
+        <div v-for="err in errors" :key="err">
+            {{ err }}
+        </div>
+    </section>
+
+    <section class="found-items overflow-x-auto my-4" v-if="books.length > 0">
         <table class="table w-full">
             <caption class="text-xl my-4">Matching books</caption>
             <thead>
@@ -57,6 +63,7 @@ export default {
             author: "",
             title: "",
             books: [],
+            errors: [],
         }
     },
     validations() {
@@ -68,6 +75,8 @@ export default {
     },
     methods: {
         async search() {
+            this.errors.length = 0
+
             const valid = await this.v$.$validate()
             if (valid) {
                 const eIsbn = encodeURIComponent(this.isbn)
@@ -84,6 +93,10 @@ export default {
                 const books = await resp.json()
                 if (books && books.length) {
                     this.books = books;
+                }
+                else {
+                    this.books.length = 0
+                    this.errors = ["No books found"]
                 }
             }
         },
