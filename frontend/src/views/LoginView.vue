@@ -32,16 +32,6 @@ export default {
                 this.$router.push('/')
             }
         },
-        async logout() {
-            this.authStore.logout()
-        },
-        async hiadmin() {
-            const resp = await fetch("/api/admin/hi")
-            if (resp.ok) {
-                const data = await resp.text()
-                console.log(data)
-            }
-        },
     },
 }
 </script>

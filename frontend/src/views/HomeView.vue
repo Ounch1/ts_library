@@ -12,28 +12,7 @@
 </template>
 
 <script>
-import { mapStores } from 'pinia'
-import { useAuthStore } from '@/stores/auth.js'
-
 export default {
     name: 'HomeView',
-    data() {
-        return {
-            username: "",
-            password: "",
-        }
-    },
-    computed: {
-        ...mapStores(useAuthStore),
-    },
-    methods: {
-        async hiadmin() {
-            const resp = await fetch("/api/admin/hi")
-            if (resp.ok) {
-                const data = await resp.text()
-                console.log(data)
-            }
-        },
-    },
 }
 </script>

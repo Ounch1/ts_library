@@ -67,7 +67,6 @@ export default {
             }
         },
         async loadBooks(classification) {
-            console.log("hehehe")
             const eClass = encodeURIComponent(classification)
             const resp = await fetch(`/api/books?classification=${eClass}`)
             if (resp.ok) {
