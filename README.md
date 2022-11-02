@@ -15,7 +15,7 @@ proxy for use in development to make sure that the Vue application and
 web service are served from the same origin to prevent problems with SOP and
 CORS. The proxy will place the web service api behind the URL `/api`.
 
-In an acctual production environment the proxy will be replaced by some kind 
+In an actual production environment the proxy will be replaced by some kind 
 of API gateway.
 
 ## Running the application
