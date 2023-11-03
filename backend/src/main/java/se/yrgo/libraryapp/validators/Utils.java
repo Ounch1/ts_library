@@ -23,9 +23,9 @@ class Utils {
     }
 
     /**
-     * Convert any "leet speak" letters into their alphabetic equivalent (i.e. 4 to a etc.) and then
-     * remove any letters that are not alphabetic or whitespace. Will return the string as all 
-     * lowecase.
+     * Converts any "leet speak" letters into their alphabetic equivalent (i.e. 4 to a etc.) and 
+     * then removes any letters that are not alphabetic (but not whitespace). Will return the string
+     * as all lowecase.
      * 
      * @param str the string to clean
      * @return a string without non alphabetic characters (except whitespace)
