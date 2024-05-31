@@ -8,12 +8,11 @@ import java.sql.Statement;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.sql.DataSource;
-import org.pac4j.core.exception.AccountNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import se.yrgo.libraryapp.entities.User;
-import se.yrgo.libraryapp.entities.UserId;
+
+import se.yrgo.libraryapp.entities.*;
 
 public class UserDao {
     private static Logger logger = LoggerFactory.getLogger(UserDao.class);
@@ -24,27 +23,7 @@ public class UserDao {
         this.ds = ds;
     }
 
-    public UserId validate(String user, String password) {
-        try (Connection conn = ds.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(
-                        "SELECT id, password_hash FROM user WHERE user = '" + user + "'")) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String passwordHash = rs.getString("password_hash");
-                Argon2PasswordEncoder encoder = new Argon2PasswordEncoder();
-                if (encoder.matches(password, passwordHash)) {
-                    return UserId.of(id);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new AccountNotFoundException(ex);
-        }
-
-        throw new AccountNotFoundException("Unable to find user " + user);
-    }
-
-    public Optional<User> get(UserId id) {
+    public Optional<User> get(String id) {
         try (Connection conn = ds.getConnection();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt
@@ -52,10 +31,28 @@ public class UserDao {
             if (rs.next()) {
                 String name = rs.getString("user");
                 String realname = rs.getString("realname");
-                return Optional.of(new User(id, name, realname));
+                return Optional.of(new User(UserId.of(id), name, realname));
             }
         } catch (SQLException ex) {
             logger.error("Unable to fetch user " + id, ex);
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<LoginInfo> getLoginInfo(String user) {
+        try (Connection conn = ds.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(
+                        "SELECT id, password_hash FROM user WHERE user = '" + user + "'")) {
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                UserId userId = UserId.of(id);
+                String passwordHash = rs.getString("password_hash");
+                return Optional.of(new LoginInfo(userId, passwordHash));
+            }
+        } catch (SQLException ex) {
+            logger.error("Unable to get user " + user, ex);
         }
 
         return Optional.empty();

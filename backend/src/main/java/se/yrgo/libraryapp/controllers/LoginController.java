@@ -1,34 +1,29 @@
 package se.yrgo.libraryapp.controllers;
 
-import java.util.List;
-import java.util.UUID;
-import org.pac4j.core.exception.CredentialsException;
-import com.google.inject.Inject;
-import io.jooby.Context;
-import io.jooby.Cookie;
-import io.jooby.SameSite;
-import io.jooby.annotations.CookieParam;
-import io.jooby.annotations.GET;
-import io.jooby.annotations.POST;
-import io.jooby.annotations.Path;
-import se.yrgo.libraryapp.dao.RoleDao;
-import se.yrgo.libraryapp.dao.SessionDao;
-import se.yrgo.libraryapp.dao.UserDao;
-import se.yrgo.libraryapp.entities.Role;
-import se.yrgo.libraryapp.entities.UserId;
-import se.yrgo.libraryapp.entities.forms.LoginData;
+import java.util.*;
+
+import org.pac4j.core.exception.*;
+
+import com.google.inject.*;
+
+import io.jooby.*;
+import io.jooby.annotations.*;
+import se.yrgo.libraryapp.dao.*;
+import se.yrgo.libraryapp.entities.*;
+import se.yrgo.libraryapp.entities.forms.*;
+import se.yrgo.libraryapp.services.*;
 
 @Path("/login")
 public class LoginController {
 
+    private UserService userService;
     private RoleDao roleDao;
-    private UserDao userDao;
     private SessionDao sessionDao;
 
     @Inject
-    LoginController(RoleDao roleDao, UserDao userDao, SessionDao sessionDao) {
+    LoginController(UserService userService, RoleDao roleDao, SessionDao sessionDao) {
+        this.userService = userService;
         this.roleDao = roleDao;
-        this.userDao = userDao;
         this.sessionDao = sessionDao;
     }
 
@@ -36,7 +31,14 @@ public class LoginController {
     public List<Role> login(Context context, @CookieParam("session") String sessionCookie, LoginData login) {
         
         if (isInvalidSession(sessionCookie)) {
-            UserId userId = userDao.validate(login.getUsername(), login.getPassword());
+            Optional<UserId> maybeUserId = userService.validate(login.getUsername(), login.getPassword());
+
+            if (maybeUserId.isEmpty()) {
+                context.setResponseCode(StatusCode.UNAUTHORIZED);
+                return List.of();
+            }
+
+            UserId userId = maybeUserId.get();
             UUID sessionId = sessionDao.create(userId);
             Cookie cookie = createSessionCookie(sessionId);
             context.setResponseCookie(cookie);
