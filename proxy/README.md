@@ -10,6 +10,7 @@ Even though they are really two different servers, by accessing them
 through the proxy the web browser will see them as one server (one 
 origin) and relax its security policies.
 
+```
               │ ▲            
               │ │            
               │ │            
@@ -25,6 +26,7 @@ origin) and relax its security policies.
 │  BACKEND   │   │ FRONTEND  │
 │            │   │           │
 └────────────┘   └───────────┘
+```
 
 ## Project Setup
 
