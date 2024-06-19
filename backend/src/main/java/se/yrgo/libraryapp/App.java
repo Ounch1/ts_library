@@ -18,22 +18,34 @@ import se.yrgo.libraryapp.controllers.BookController;
 import se.yrgo.libraryapp.controllers.admin.*;
 import se.yrgo.libraryapp.entities.Role;
 
+/**
+ * This is a Jooby application, an alternative to Spring, kind of.
+ * 
+ * Don't be afraid to read more about how Jooby works at https://jooby.io/
+ * 
+ */
 public class App extends Jooby {
   public App() {
     install(new GracefulShutdown());
-    install(new GuiceModule());
-    install(new HikariModule());
-    install(new FlywayModule());
-    install(new JacksonModule());
+    install(new GuiceModule()); // dependency injection
+    install(new HikariModule()); // database connections
+    install(new FlywayModule()); // schema migration
+    install(new JacksonModule()); // json (de)serialization
 
     decorator(new AccessLogHandler());
     decorator(new CorsHandler());
+
+    // here we define our controllers
 
     mvc(LoginController.class);
     mvc(LogoutController.class);
     mvc(BookController.class);
     mvc(RegisterUserController.class);
     mvc(ClassificationController.class);
+
+    // pac4j is a security framework for authentication & authorization
+    // we need this for some of the controllers to make sure the
+    // user is logged in and has the correct permissions
 
     Pac4jOptions pac4jOptions = new Pac4jOptions();
     pac4jOptions.setCookieSameSite(SameSite.LAX);
