@@ -6,6 +6,12 @@ web service built on the Jooby framework.
 This program is broken by design! It contains more bugs than an average ant 
 hill! **DO NOT USE FOR ANYTHING OUT IN THE REAL WORLD**.
 
+## Code
+
+The `App` class defines all the modules needed, including the controllers, which
+are where all the useful stuff happens. Starting from these controllers you can
+follow the code to discover what it all does.
+
 ## Running
 
 The application assumes that there is a MySQL database up and running with the
