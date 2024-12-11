@@ -1,3 +1,5 @@
+package se.yrgo.integrations;
+
 public class GeneralStepDefinitions {
     private static WebDriver driver;
     @Before
