@@ -1,3 +1,8 @@
+se\yrgo\pageobjects\StartPage.class
+se\yrgo\pageobjects\SearchPage.class
+se\yrgo\Helper.class
+se\yrgo\integrations\RunCucumberTest.class
+se\yrgo\integrations\SearchByNameStepDefinition.class
 se\yrgo\integrations\SearchStepDefinitions.class
 se\yrgo\integrations\GeneralStepDefinitions.class
-se\yrgo\integrations\RunCucumberTest.class
+se\yrgo\integrations\SearchEmptyStepDefinition.class
