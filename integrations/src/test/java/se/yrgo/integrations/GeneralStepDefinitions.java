@@ -1,5 +1,17 @@
 package se.yrgo.integrations;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class GeneralStepDefinitions {
     private static WebDriver driver;
     @Before
