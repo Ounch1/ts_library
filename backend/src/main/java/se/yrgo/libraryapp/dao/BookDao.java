@@ -87,7 +87,7 @@ public class BookDao {
                 + "ORDER BY return_date ASC";
 
         try (Connection conn = ds.getConnection();
-                Statement stmt = conn.createStatement();
+                PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery(query)) {
             return getOverdueFromSet(rs);
         } catch (SQLException ex) {
